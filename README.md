@@ -193,9 +193,9 @@ Add screenshots or recordings only from an authorized lab environment. Redact cr
 
 ## Private / Commercial Releases
 
-For authorized private research, commercial testing, or compatibility work, replace the placeholder below with a verified maintainer contact:
+For authorized private research, commercial testing, or compatibility work, contact the maintainer:
 
-- **Telegram:** `@your_telegram_handle`
+[![Telegram](https://img.shields.io/badge/Telegram-Contact%20%40jalwan0-26A5E4?logo=telegram&logoColor=white)](https://t.me/jalwan0)
 
 ## Authorized Security Testing Disclaimer
 
