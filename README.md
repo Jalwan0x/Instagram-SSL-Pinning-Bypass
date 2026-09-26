@@ -1,5 +1,15 @@
 # Instagram Android SSL Pinning Testing Utility
 
+## SEO Keywords
+
+- Instagram Android SSL pinning testing
+- Frida SSL/TLS pinning research
+- Android HTTPS traffic analysis
+- Burp Suite interception
+- mobile application security testing
+- certificate pinning assessment
+- authorized penetration testing
+
 Frida-based utility documentation for **authorized Android mobile application security testing**, SSL/TLS pinning assessment, and HTTPS traffic analysis through Burp Suite. This repository is intended for researchers, mobile application testers, and developers validating certificate-pinning behavior in controlled environments.
 
 > **Tested target:** Instagram Android `448.0.0.52.84`  
