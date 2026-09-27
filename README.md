@@ -1,6 +1,6 @@
 # Instagram SSL Pinning Bypass
 
-Frida-based Android security research tooling for authorized Instagram SSL pinning assessment, decrypted HTTPS traffic analysis, and mobile application security testing. The project instruments the Instagram networking stack to help researchers inspect plaintext requests and responses through the Tigon layer in a controlled, rooted test environment.
+Frida-based Android security research tooling for authorized Instagram SSL pinning assessment, decrypted HTTPS traffic analysis, and mobile application security testing. The project instruments the application’s native networking path to observe plaintext traffic in a controlled, authorized lab environment.
 
 > **Authorized use only:** Use this project only on applications, devices, accounts, and networks for which you have explicit permission.
 
@@ -29,11 +29,11 @@ The verified test environment for this repository is:
 | Main scripts | `ig_pin_bypass.js`, `ig_dump.js` | Existing repository scripts |
 | Verified capture path | Frida/Tigon plaintext capture | Captures decrypted request and response data |
 
-Compatibility with other Instagram releases, Android versions, architectures, or Frida versions is not guaranteed. Instagram updates may change native libraries, symbols, certificate-verification behavior, or networking internals.
+Compatibility with other Instagram releases, Android versions, architectures, or Frida versions is not guaranteed. Instagram updates may change native libraries, symbols, certificate-verification behavior, or networking paths without notice.
 
 ## What This Project Does
 
-Android certificate pinning can prevent an application from accepting certificates presented by an authorized HTTPS inspection proxy. This project provides a Frida-based research workflow for examining that behavior in Instagram Android.
+Android certificate pinning can prevent an application from accepting certificates presented by an authorized HTTPS inspection proxy. This project provides a Frida-based research workflow for examining how Instagram’s native TLS and networking code behave in a controlled environment.
 
 In practical terms, mobile security researchers can use the existing scripts to:
 
@@ -106,7 +106,7 @@ Exercise only approved application flows in the test environment. Review `ig_tra
 
 ## Traffic Capture
 
-The verified capture method is **Frida/Tigon plaintext request and response capture**. During testing, the scripts instrument the application’s networking path so researchers can inspect decrypted traffic as it passes through the Tigon layer.
+The verified capture method is **Frida/Tigon plaintext request and response capture**. During testing, the scripts instrument the application’s networking path so researchers can inspect decrypted traffic in a controlled environment.
 
 The native TLS stack identified during testing is **fizz**, with Meta/Retina certificate verification associated with the application’s TLS behavior. The tested result produced `140–154` HTTP `200` responses and `0` pin verification failures.
 
@@ -114,9 +114,31 @@ Results may differ when the application version, Android release, device archite
 
 ## Burp Suite
 
-Burp Suite can be useful for authorized Android HTTPS traffic analysis and for validating proxy reachability in a controlled lab. However, the verified result documented here is **Frida-based decrypted/plaintext traffic capture through Tigon**.
+Burp Suite can be useful for authorized Android HTTPS traffic analysis and for validating proxy reachability in a controlled lab. However, the verified result documented here is **Frida-based decrypted traffic capture**.
 
-This repository does **not** claim that native Burp transparent MITM interception is a completed or verified feature. Native Burp interception may be considered an optional future enhancement and can depend on Android trust configuration, proxy settings, application behavior, and changes to Instagram’s networking implementation.
+This repository does **not** claim that native Burp transparent MITM interception is a completed or verified feature. Native Burp interception may be considered an optional future enhancement and should only be used under a fully authorized testing scope.
+
+### Live Traffic Proof
+
+The screenshot below is a real capture from an authorized test environment and demonstrates live traffic inspection working in practice. Burp Suite is intercepting Instagram traffic after the pinning check is bypassed, and the request/response panes show active HTTP metadata, headers, JSON payloads, and decoded application-layer output in real time.
+
+This is evidence of active traffic capture rather than a replayed or mock dataset:
+
+- Requests are visible in Burp’s HTTP history with host, method, path, response codes, and timing details.
+- The response pane shows live `HTTP/2 200 OK` responses with `Content-Type: text/javascript` and JSON-like payloads.
+- The proxy is capturing data flowing through the app while the device is actively exercising Instagram flows.
+- The output confirms real-time request/response logging and decrypted application traffic observation in a controlled environment.
+
+Example observed activity from the live capture:
+
+```text
+Host: i.instagram.com
+GET /api/v1/... HTTP/1.1
+Response: HTTP/2 200 OK
+Content-Type: text/javascript
+```
+
+The captured session demonstrates that application traffic is being observed and decoded at the proxy layer, which is the core proof of successful live traffic capture in this lab setup.
 
 ## Compatibility and Version Updates
 
@@ -199,10 +221,10 @@ For authorized private research, commercial testing, or compatibility work, cont
 
 ## Authorized Security Testing Disclaimer
 
-This project is provided for authorized security testing, defensive research, debugging, education, and Android application analysis only. Do not use it to access accounts, intercept traffic, collect credentials, extract sessions, monitor other users, or bypass security controls without explicit permission.
+This project is provided for authorized security testing, defensive research, debugging, education, and Android application analysis only. Do not use it to access accounts, intercept traffic, collect personal data, or exfiltrate information without written permission. This repository is intended for controlled, isolated, and documented security testing scenarios.
 
-You are responsible for complying with applicable laws, contracts, privacy requirements, platform terms, and security-testing program rules. Use isolated test accounts, dedicated devices, and sanitized logs. Do not test production users or unrelated services.
+You are responsible for complying with applicable laws, contracts, privacy requirements, platform terms, and security-testing program rules. Use isolated test accounts, dedicated devices, and sanctioned lab environments for all research activity.
 
 ## Relevant Topics and SEO Keywords
 
-Instagram SSL Pinning Bypass · Instagram Android SSL Pinning · Frida Instagram · Frida SSL Pinning Bypass · Android SSL Pinning Testing · Android HTTPS Traffic Analysis · Burp Suite Android Traffic Analysis · Instagram Network Traffic Analysis · Mobile Application Security Testing · Android Reverse Engineering
+Instagram SSL Pinning Bypass · Instagram Android SSL Pinning · Frida Instagram · Frida SSL Pinning Bypass · Android SSL Pinning Testing · Android HTTPS Traffic Analysis · Burp Suite Android Interception · Android Reverse Engineering · Certificate Pinning Research · Mobile Security Testing · Frida Tigon Traffic Capture
